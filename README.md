@@ -1,10 +1,10 @@
-# Order Management Microservice in Golang
+# URL Shortener Microservice in Golang
 
 ## Introduction
 This webservice has been implemented in golang and the set of exposed APIs are RESTful.
 
 ## Table of Content
-- [Order Management Microservice in Golang](#order-management-microservice-in-golang)
+- [URL Shortener Microservice in Golang](#order-management-microservice-in-golang)
   - [Introduction](#introduction)
   - [Table of Content](#table-of-content)
   - [Setting up Development Environment](#setting-up-development-environment)
