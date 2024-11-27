@@ -1,6 +1,7 @@
 package services
 
 import (
+	"errors"
 	"time"
 	"url-shortener/domain/entities"
 	"url-shortener/domain/repositories"
@@ -60,6 +61,13 @@ func (service *urlShortenerService) generateShortURL(length int) string {
 }
 
 // The CreateOrder method of the urlShortenerService struct utilizes the OrderRepository instance, by calling the Create method on it, and returns the order created and errors if received.
-// func (service *urlShortenerService) ResolveURL(shortURL string) (string, error) {
-// 	return service.repo.Create(input)
-// }
+func (service *urlShortenerService) ResolveURL(shortURL string) (string, error) {
+	url, err := service.repo.GetByShortURL(shortURL)
+	if err != nil || url == nil {
+		return "", errors.New("short URL not found")
+	}
+
+	_ = service.repo.IncrementAccessCount(shortURL)
+
+	return url.LongURL, nil
+}
