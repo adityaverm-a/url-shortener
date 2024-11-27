@@ -2,6 +2,7 @@ package router
 
 import (
 	"net/http"
+	urlShortenerRouter "url-shortener/router"
 
 	"github.com/gin-gonic/gin"
 )
@@ -17,8 +18,8 @@ func Create() http.Handler {
 		})
 	})
 
-	// v1 := r.Group("/v1")
-	// orderRouter.InjectOrderRoutes(v1)
+	v1 := r.Group("/v1")
+	urlShortenerRouter.InjectUrlShortenerRoutes(v1)
 
 	return r
 }

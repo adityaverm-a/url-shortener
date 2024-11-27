@@ -2,7 +2,7 @@ package controllers
 
 import (
 	"url-shortener/app/controller"
-	"url-shortener/url-shortener/domain/services"
+	"url-shortener/domain/services"
 )
 
 // UrlShortenerController is...
@@ -14,13 +14,13 @@ type UrlShortenerController interface {
 }
 
 // NewUrlShortenerController creates a new instance of the urlShortenerController
-func NewUrlShortenerController(orderService services.OrderService) UrlShortenerController {
-	return &urlShortenerController{orderService: orderService}
+func NewUrlShortenerController(urlShortenerService services.UrlShortenerService) UrlShortenerController {
+	return &urlShortenerController{urlShortenerService: urlShortenerService}
 }
 
 type urlShortenerController struct {
 	controller.Controller
-	orderService services.OrderService
+	urlShortenerService services.UrlShortenerService
 }
 
 // // GetOrders handles incoming requests to retrieve orders by given filters.

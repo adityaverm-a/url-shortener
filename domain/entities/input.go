@@ -2,8 +2,8 @@ package entities
 
 import (
 	"reflect"
-	"url-shortener/order/data/constants"
-	"url-shortener/order/data/models"
+	"url-shortener/data/constants"
+	"url-shortener/data/models"
 )
 
 type GetOrderByIDInput struct {

@@ -1,8 +1,8 @@
 package router
 
 import (
-	"url-shortener/url-shortener/containers"
-	"url-shortener/url-shortener/controllers"
+	"url-shortener/containers"
+	"url-shortener/controllers"
 
 	"github.com/gin-gonic/gin"
 )
@@ -19,12 +19,18 @@ func setupRoutes(r *gin.RouterGroup) {
 
 	// create a new instance of the container
 	container := containers.NewContainer()
-	UrlShortenerController = container.InjectUrlShortenerController()
+	urlShortenerController = container.InjectUrlShortenerController()
 
 	// // a GET request to /orders will fetch  all orders
 	// r.GET("/orders", func(c *gin.Context) {
 	// 	orderController.GetOrders(c)
 	// })
+
+	r.GET("/ping", func(c *gin.Context) {
+		c.JSON(200, gin.H{
+			"message": "pong",
+		})
+	})
 
 	// // a POST request to /order will create an order
 	// r.POST("/order", func(c *gin.Context) {

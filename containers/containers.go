@@ -1,10 +1,9 @@
 package containers
 
 import (
-	"url-shortener/datasources"
-	"url-shortener/url-shortener/controllers"
-	"url-shortener/url-shortener/data/repositories"
-	"url-shortener/url-shortener/domain/services"
+	"url-shortener/controllers"
+	"url-shortener/data/repositories"
+	"url-shortener/domain/services"
 )
 
 // Container is...
@@ -32,8 +31,7 @@ func (c *container) InjectUrlShortenerController() controllers.UrlShortenerContr
 // InjectUrlShortenerService injects an instance of the UrlShortenerService
 func InjectUrlShortenerService() (services.UrlShortenerService, error) {
 
-	sqlClient := datasources.GetSQLClient()
-	urlShortenerRepository := repositories.NewUrlShortenerRepository(sqlClient)
+	urlShortenerRepository := repositories.NewUrlShortenerRepository()
 
 	urlShortenerService := services.NewUrlShortenerService(urlShortenerRepository)
 

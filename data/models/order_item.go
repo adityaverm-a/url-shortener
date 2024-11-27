@@ -1,6 +1,6 @@
 package models
 
-import "url-shortener/order/data/constants"
+import "url-shortener/data/constants"
 
 type OrderItem struct {
 	ID          int64   `json:"id" gorm:"primaryKey;column:id" `
