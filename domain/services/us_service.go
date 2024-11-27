@@ -11,8 +11,8 @@ import (
 
 // UrlShortenerService is...
 type UrlShortenerService interface {
-	ShortenURL(longURL string) (string, error)
-	ResolveURL(shortURL string) (string, error)
+	Shorten(longURL string) (string, error)
+	Resolve(shortURL string) (string, error)
 }
 
 // The NewUrlShortenerService function is a factory function that returns a new instance of the urlShortenerService
@@ -25,7 +25,7 @@ type urlShortenerService struct {
 }
 
 // The GetOrderByID method of the urlShortenerService struct utilizes the OrderRepository instance, by calling the GetByID method on it, and returns any order and errors if received.
-func (service *urlShortenerService) ShortenURL(longURL string) (string, error) {
+func (service *urlShortenerService) Shorten(longURL string) (string, error) {
 	existing, _ := service.repo.GetByLongURL(longURL)
 	if existing != nil {
 		return existing.ShortURL, nil
@@ -61,7 +61,7 @@ func (service *urlShortenerService) generateShortURL(length int) string {
 }
 
 // The CreateOrder method of the urlShortenerService struct utilizes the OrderRepository instance, by calling the Create method on it, and returns the order created and errors if received.
-func (service *urlShortenerService) ResolveURL(shortURL string) (string, error) {
+func (service *urlShortenerService) Resolve(shortURL string) (string, error) {
 	url, err := service.repo.GetByShortURL(shortURL)
 	if err != nil || url == nil {
 		return "", errors.New("short URL not found")
