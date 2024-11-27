@@ -6,10 +6,8 @@ import (
 
 // UrlShortenerService is...
 type UrlShortenerService interface {
-	// GetOrderByID(id int64) (*models.Order, error)
-	// GetOrdersByFilters(filters entities.OrderFiltersInput) (*[]models.Order, error)
-	// CreateOrder(input entities.CreateOrderInput) (*models.Order, error)
-	// UpdateOrderStatus(input entities.UpdateOrderStatusInput) (*models.Order, error)
+	ShortURL(shortURL string) (string, error)
+	ResolveURL(longURL string) (string, error)
 }
 
 // The NewUrlShortenerService function is a factory function that returns a new instance of the urlShortenerService
