@@ -15,7 +15,6 @@ The microservice uses `sync.Map` for thread-safe, in-memory storage and offers v
     - [Running the Server](#running-the-server)
     - [Postman Collection](#postman-collection)
     - [Launching the Debugger](#launching-the-debugger)
-    - [Unit Testing Guidelines](#unit-testing-guidelines)
 
 ## Features Implemented
 
@@ -44,9 +43,6 @@ The microservice uses `sync.Map` for thread-safe, in-memory storage and offers v
 ### 6. **URL Redirection**
    - When accessing a short URL, the service redirects to the original URL.
    - The redirection is permanent (`301 Moved Permanently`), ensuring a smooth user experience.
-
-### 7. **Unit Tests**
-   - The microservice includes unit tests for key functionality like shortening, resolving URLs, and validating input data.
 
 ---
 
@@ -99,5 +95,3 @@ Create a file `launch.json` in `.vscode` directory ( .vscode directory should be
 
 Click on the play button, debugging server will start
 
-### <a name="unit-testing-guidelines">Unit Testing Guidelines <a/>
-##### To run unit tests recursively, run -> go test ./...
