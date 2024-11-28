@@ -10,14 +10,14 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-// URLShortenerController is...
+// URLShortenerController is
 type URLShortenerController interface {
 	GetAllShortURLs(gCtx *gin.Context)
 	ShortenURL(gCtx *gin.Context)
 	ResolveURL(gCtx *gin.Context)
 }
 
-// NewURLShortenerController creates a new instance of the urlShortenerController
+// NewURLShortenerController creates and returns a new URLShortenerController instance.
 func NewURLShortenerController(urlShortenerService services.URLShortenerService) URLShortenerController {
 	return &urlShortenerController{urlShortenerService: urlShortenerService}
 }
@@ -27,8 +27,8 @@ type urlShortenerController struct {
 	urlShortenerService services.URLShortenerService
 }
 
+// GetAllShortURLs retrieves all the stored short URLs and their associated long URLs.
 func (c *urlShortenerController) GetAllShortURLs(gCtx *gin.Context) {
-	// Get all short URLs from the service
 	urls := c.urlShortenerService.GetAll()
 
 	if len(urls) == 0 {
@@ -39,7 +39,7 @@ func (c *urlShortenerController) GetAllShortURLs(gCtx *gin.Context) {
 	gCtx.JSON(http.StatusOK, gin.H{"urls": urls})
 }
 
-// AddToCart adds an item in cart based on inputs and returns updated order or error
+// ShortenURL accepts a long URL and returns its corresponding short URL.
 func (c *urlShortenerController) ShortenURL(gCtx *gin.Context) {
 	var input entities.CreateShortURLInput
 
@@ -60,20 +60,20 @@ func (c *urlShortenerController) ShortenURL(gCtx *gin.Context) {
 		return
 	}
 
-	// Dynamically get the current host
+	// Dynamically get the current host and protocol (http/https)
 	host := gCtx.Request.Host
-	protocol := "http"           // Default to HTTP; set to HTTPS if required
-	if gCtx.Request.TLS != nil { // If the request is over HTTPS
+	protocol := "http"
+	if gCtx.Request.TLS != nil {
 		protocol = "https"
 	}
 
-	// Construct the full short URL
 	shortURL := fmt.Sprintf("%s://%s/%s", protocol, host, url)
 
+	// Send the response with the short URL
 	c.Send(gCtx, gin.H{"short_url": shortURL})
 }
 
-// UpdateOrderStatus updates an order's status based on inputs and returns updated order or error
+// ResolveURL takes a short URL and redirects the user to the corresponding long URL.
 func (c *urlShortenerController) ResolveURL(gCtx *gin.Context) {
 	shortURL := gCtx.Param("short_url")
 

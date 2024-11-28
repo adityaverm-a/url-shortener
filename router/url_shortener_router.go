@@ -18,7 +18,6 @@ func InjectURLShortenerRoutes(router *gin.Engine) {
 // setupRoutes configures the individual API endpoints for the URL shortener service.
 func setupRoutes(r *gin.Engine) {
 
-	// Initialize the container and inject the URLShortenerController
 	container := containers.NewContainer()
 	urlShortenerController = container.InjectURLShortenerController()
 
@@ -28,7 +27,6 @@ func setupRoutes(r *gin.Engine) {
 		urlShortenerController.ResolveURL(c)
 	})
 
-	// Versioned routes under /v1
 	v1 := r.Group("/v1")
 
 	// Route to fetch all short URLs and their associated data
