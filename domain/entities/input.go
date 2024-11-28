@@ -10,9 +10,9 @@ type GetShortURLInput struct {
 }
 
 type CreateShortURLInput struct {
-	CustomShortURL string `form:"custom_short_url" json:"custom_short_url"`
-	ExpiresAt      int64  `form:"expires_at" json:"expires_at"`
 	LongURL        string `form:"long_url" json:"long_url" binding:"required"`
+	CustomShortURL string `form:"custom_short_url" json:"custom_short_url"`
+	TTL            int64  `form:"ttl" json:"ttl"` // TTL in seconds (optional)
 }
 
 func (input *CreateShortURLInput) Validate() error {
