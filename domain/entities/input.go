@@ -1,7 +1,6 @@
 package entities
 
 import (
-	"errors"
 	"net/url"
 )
 
@@ -18,7 +17,7 @@ type CreateShortURLInput struct {
 func (input *CreateShortURLInput) Validate() error {
 	_, err := url.ParseRequestURI(input.LongURL)
 	if err != nil {
-		return errors.New("invalid URL")
+		return ErrorInvalidURL
 	}
 
 	return nil

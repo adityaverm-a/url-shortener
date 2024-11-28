@@ -1,7 +1,6 @@
 package services
 
 import (
-	"errors"
 	"time"
 	"url-shortener/domain/entities"
 	"url-shortener/domain/repositories"
@@ -57,7 +56,7 @@ func (service *urlShortenerService) Shorten(input entities.CreateShortURLInput) 
 func (service *urlShortenerService) handleCustomShortURL(input entities.CreateShortURLInput) (string, error) {
 	existing, _ := service.repo.GetByShortURL(input.CustomShortURL)
 	if existing != nil {
-		return "", errors.New("custom short URL already exists")
+		return "", ErrorURLAlreadyExists
 	}
 
 	return service.createAndSaveShortURL(input.LongURL, input.CustomShortURL, input.TTL)
@@ -110,11 +109,11 @@ func (service *urlShortenerService) generateShortURL() string {
 func (service *urlShortenerService) Resolve(shortURL string) (string, error) {
 	url, _ := service.repo.GetByShortURL(shortURL)
 	if url == nil {
-		return "", errors.New("the requested short URL does not exist")
+		return "", ErrorURLNotFound
 	}
 
 	if !url.ExpiresAt.IsZero() && time.Now().After(url.ExpiresAt) {
-		return "", errors.New("short URL has expired")
+		return "", ErrorURLExpired
 	}
 
 	_ = service.repo.IncrementAccessCount(shortURL)
