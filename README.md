@@ -77,7 +77,7 @@ Use below command to start your server
 Once the server is up & runnning, use the provided Postman Collection!
 
 ### <a name="running-the-server">Postman Collection <a/> 
-I have attached the Postman collection for testing all the API endpoints. You can find the collection on my [GitHub repository](https://github.com/adityaverm-a/url-shortener) to quickly test the functionality of the service.
+I have attached the Postman collection for testing all the API endpoints. You can find the collection on my [GitHub repository](https://github.com/adityaverm-a/url-shortener/blob/main/URL%20Shortener.postman_collection.json) to quickly test the functionality of the service.
 
 ### <a name="starting-debugger">Launching the Debugger <a/>
 
