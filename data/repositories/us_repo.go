@@ -4,8 +4,8 @@ import (
 	"url-shortener/domain/repositories"
 )
 
-// The NewUrlShortenerRepository function is a factory function that returns a new instance of the urlShortenerRepo
-func NewUrlShortenerRepository() repositories.UrlShortenerRepository {
+// The NewURLShortenerRepository function is a factory function that returns a new instance of the urlShortenerRepo
+func NewURLShortenerRepository() repositories.URLShortenerRepository {
 	return &urlShortenerRepo{}
 }
 

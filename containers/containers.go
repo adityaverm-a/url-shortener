@@ -8,7 +8,7 @@ import (
 
 // Container is...
 type Container interface {
-	InjectUrlShortenerController() controllers.UrlShortenerController
+	InjectURLShortenerController() controllers.URLShortenerController
 }
 
 // NewContainer creates a new Container instance
@@ -18,22 +18,22 @@ func NewContainer() Container {
 
 type container struct{}
 
-// InjectUrlShortenerController injects an instance of the UrlShortenerController
-func (c *container) InjectUrlShortenerController() controllers.UrlShortenerController {
-	urlShortenerService, err := InjectUrlShortenerService()
+// InjectURLShortenerController injects an instance of the URLShortenerController
+func (c *container) InjectURLShortenerController() controllers.URLShortenerController {
+	urlShortenerService, err := InjectURLShortenerService()
 	if err != nil {
 		panic(1)
 	}
 
-	return controllers.NewUrlShortenerController(urlShortenerService)
+	return controllers.NewURLShortenerController(urlShortenerService)
 }
 
-// InjectUrlShortenerService injects an instance of the UrlShortenerService
-func InjectUrlShortenerService() (services.UrlShortenerService, error) {
+// InjectURLShortenerService injects an instance of the URLShortenerService
+func InjectURLShortenerService() (services.URLShortenerService, error) {
 
-	urlShortenerRepository := repositories.NewUrlShortenerRepository()
+	urlShortenerRepository := repositories.NewURLShortenerRepository()
 
-	urlShortenerService := services.NewUrlShortenerService(urlShortenerRepository)
+	urlShortenerService := services.NewURLShortenerService(urlShortenerRepository)
 
 	return urlShortenerService, nil
 }

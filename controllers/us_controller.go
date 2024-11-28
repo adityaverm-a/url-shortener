@@ -9,20 +9,20 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-// UrlShortenerController is...
-type UrlShortenerController interface {
+// URLShortenerController is...
+type URLShortenerController interface {
 	ShortenURL(gCtx *gin.Context)
 	ResolveURL(gCtx *gin.Context)
 }
 
-// NewUrlShortenerController creates a new instance of the urlShortenerController
-func NewUrlShortenerController(urlShortenerService services.UrlShortenerService) UrlShortenerController {
+// NewURLShortenerController creates a new instance of the urlShortenerController
+func NewURLShortenerController(urlShortenerService services.URLShortenerService) URLShortenerController {
 	return &urlShortenerController{urlShortenerService: urlShortenerService}
 }
 
 type urlShortenerController struct {
 	controller.Controller
-	urlShortenerService services.UrlShortenerService
+	urlShortenerService services.URLShortenerService
 }
 
 // AddToCart adds an item in cart based on inputs and returns updated order or error

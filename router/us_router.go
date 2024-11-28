@@ -7,10 +7,10 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-var urlShortenerController controllers.UrlShortenerController
+var urlShortenerController controllers.URLShortenerController
 
-// InjectUrlShortenerRoutes is defined to set up the routes and inject the dependencies for the router to work correctly.
-func InjectUrlShortenerRoutes(router *gin.RouterGroup) {
+// InjectURLShortenerRoutes is defined to set up the routes and inject the dependencies for the router to work correctly.
+func InjectURLShortenerRoutes(router *gin.RouterGroup) {
 	setupRoutes(router)
 }
 
@@ -19,7 +19,7 @@ func setupRoutes(r *gin.RouterGroup) {
 
 	// create a new instance of the container
 	container := containers.NewContainer()
-	urlShortenerController = container.InjectUrlShortenerController()
+	urlShortenerController = container.InjectURLShortenerController()
 
 	// a POST request to /order will create an order
 	r.POST("/shorten", func(c *gin.Context) {

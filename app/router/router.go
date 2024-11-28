@@ -19,7 +19,7 @@ func Create() http.Handler {
 	})
 
 	v1 := r.Group("/v1")
-	urlShortenerRouter.InjectUrlShortenerRoutes(v1)
+	urlShortenerRouter.InjectURLShortenerRoutes(v1)
 
 	return r
 }

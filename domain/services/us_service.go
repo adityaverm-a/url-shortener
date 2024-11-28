@@ -9,19 +9,19 @@ import (
 	"golang.org/x/exp/rand"
 )
 
-// UrlShortenerService is...
-type UrlShortenerService interface {
+// URLShortenerService is...
+type URLShortenerService interface {
 	Shorten(longURL string) (string, error)
 	Resolve(shortURL string) (string, error)
 }
 
-// The NewUrlShortenerService function is a factory function that returns a new instance of the urlShortenerService
-func NewUrlShortenerService(repo repositories.UrlShortenerRepository) UrlShortenerService {
+// The NewURLShortenerService function is a factory function that returns a new instance of the urlShortenerService
+func NewURLShortenerService(repo repositories.URLShortenerRepository) URLShortenerService {
 	return &urlShortenerService{repo: repo}
 }
 
 type urlShortenerService struct {
-	repo repositories.UrlShortenerRepository
+	repo repositories.URLShortenerRepository
 }
 
 // The GetOrderByID method of the urlShortenerService struct utilizes the OrderRepository instance, by calling the GetByID method on it, and returns any order and errors if received.
