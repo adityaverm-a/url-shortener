@@ -91,7 +91,11 @@ func (service *urlShortenerService) generateShortURL(length int) string {
 func (service *urlShortenerService) Resolve(shortURL string) (string, error) {
 	url, _ := service.repo.GetByShortURL(shortURL)
 	if url == nil {
-		return "", errors.New("The requested short URL does not exist.")
+		return "", errors.New("the requested short URL does not exist")
+	}
+
+	if time.Now().After(url.ExpiresAt) {
+		return "", errors.New("short URL has expired")
 	}
 
 	_ = service.repo.IncrementAccessCount(shortURL)
