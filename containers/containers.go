@@ -31,7 +31,7 @@ func (c *container) InjectURLShortenerController() controllers.URLShortenerContr
 // InjectURLShortenerService injects an instance of the URLShortenerService
 func InjectURLShortenerService() (services.URLShortenerService, error) {
 
-	urlShortenerRepository := repositories.NewURLShortenerRepository()
+	urlShortenerRepository := repositories.NewMemoryRepo()
 
 	urlShortenerService := services.NewURLShortenerService(urlShortenerRepository)
 
