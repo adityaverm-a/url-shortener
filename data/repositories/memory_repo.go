@@ -7,53 +7,56 @@ import (
 )
 
 type memoryRepo struct {
-	data map[string]entities.URL
-	mu   sync.RWMutex
+	data sync.Map
 }
 
 func NewMemoryRepo() repositories.URLShortenerRepository {
-	return &memoryRepo{
-		data: make(map[string]entities.URL),
-	}
+	return &memoryRepo{}
 }
 
+// GetAll returns all stored URLs from the map
 func (m *memoryRepo) GetAll() map[string]entities.URL {
-	return m.data
+	result := make(map[string]entities.URL)
+	m.data.Range(func(key, value interface{}) bool {
+		if url, ok := value.(entities.URL); ok {
+			result[key.(string)] = url
+		}
+		return true
+	})
+	return result
 }
 
 func (m *memoryRepo) Save(url entities.URL) error {
-	m.mu.Lock()
-	defer m.mu.Unlock()
-	m.data[url.ShortURL] = url
+	m.data.Store(url.ShortURL, url)
 	return nil
 }
 
 func (m *memoryRepo) GetByShortURL(shortURL string) (*entities.URL, error) {
-	m.mu.RLock()
-	defer m.mu.RUnlock()
-	if url, exists := m.data[shortURL]; exists {
+	if value, ok := m.data.Load(shortURL); ok {
+		url := value.(entities.URL)
 		return &url, nil
 	}
 	return nil, nil
 }
 
 func (m *memoryRepo) GetByLongURL(longURL string) (*entities.URL, error) {
-	m.mu.RLock()
-	defer m.mu.RUnlock()
-	for _, url := range m.data {
+	var result *entities.URL
+	m.data.Range(func(key, value interface{}) bool {
+		url := value.(entities.URL)
 		if url.LongURL == longURL {
-			return &url, nil
+			result = &url
+			return false // Stop iteration once the match is found
 		}
-	}
-	return nil, nil
+		return true
+	})
+	return result, nil
 }
 
 func (m *memoryRepo) IncrementAccessCount(shortURL string) error {
-	m.mu.Lock()
-	defer m.mu.Unlock()
-	if url, exists := m.data[shortURL]; exists {
+	if value, ok := m.data.Load(shortURL); ok {
+		url := value.(entities.URL)
 		url.AccessCount++
-		m.data[shortURL] = url
+		m.data.Store(shortURL, url)
 		return nil
 	}
 	return nil

@@ -17,12 +17,18 @@ type URLShortenerService interface {
 }
 
 // The NewURLShortenerService function is a factory function that returns a new instance of the urlShortenerService
-func NewURLShortenerService(repo repositories.URLShortenerRepository) URLShortenerService {
-	return &urlShortenerService{repo: repo}
+func NewURLShortenerService(repo repositories.URLShortenerRepository, charset string, shortURLLength int) URLShortenerService {
+	return &urlShortenerService{
+		repo:           repo,
+		charset:        charset,
+		shortURLLength: shortURLLength,
+	}
 }
 
 type urlShortenerService struct {
-	repo repositories.URLShortenerRepository
+	repo           repositories.URLShortenerRepository
+	charset        string
+	shortURLLength int
 }
 
 func (service *urlShortenerService) GetAll() map[string]entities.URL {
@@ -40,7 +46,7 @@ func (service *urlShortenerService) Shorten(input entities.CreateShortURLInput) 
 		return existing.ShortURL, nil
 	}
 
-	shortURL := service.generateShortURL(6)
+	shortURL := service.generateShortURL()
 
 	return service.createAndSaveShortURL(input.LongURL, shortURL, input.TTL)
 }
@@ -70,8 +76,17 @@ func (service *urlShortenerService) createAndSaveShortURL(longURL string, shortU
 	return url.ShortURL, err
 }
 
-func (service *urlShortenerService) generateShortURL(length int) string {
-	const charset = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"
+func (service *urlShortenerService) generateShortURL() string {
+	charset := DEFAULT_CHARSET
+	if service.charset != "" {
+		charset = service.charset
+	}
+
+	length := DEFAULT_SHORT_URL_LENGTH
+
+	if service.shortURLLength > 0 {
+		length = service.shortURLLength
+	}
 
 	// Seed the random number generator to ensure randomness
 	rand.Seed(uint64(time.Now().UnixNano()))

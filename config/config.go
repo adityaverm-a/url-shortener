@@ -8,7 +8,9 @@ import (
 
 // AppConfig represents the application config that are defined in env files.
 type AppConfig struct {
-	Port string `mapstructure:"port"`
+	Port           string `mapstructure:"port"`
+	Charset        string `mapstructure:"charset"`
+	ShortURLLength int    `mapstructure:"shortURLLength"`
 }
 
 // Config is ...

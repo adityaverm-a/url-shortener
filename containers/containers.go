@@ -1,6 +1,7 @@
 package containers
 
 import (
+	"url-shortener/config"
 	"url-shortener/controllers"
 	"url-shortener/data/repositories"
 	"url-shortener/domain/services"
@@ -33,7 +34,7 @@ func InjectURLShortenerService() (services.URLShortenerService, error) {
 
 	urlShortenerRepository := repositories.NewMemoryRepo()
 
-	urlShortenerService := services.NewURLShortenerService(urlShortenerRepository)
+	urlShortenerService := services.NewURLShortenerService(urlShortenerRepository, config.Config.Charset, config.Config.ShortURLLength)
 
 	return urlShortenerService, nil
 }

@@ -62,6 +62,11 @@ This file should be placed in the root of the source code.
 ```yaml
 port: <:port>
 #port: :5000
+charset: <your_char_set>
+#charset: abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789
+shortURLLength: <short_url_length>
+#shortURLLength: 6
+
 ```
 
 ### <a name="running-the-server">Running the Server <a/>
