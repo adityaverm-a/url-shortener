@@ -17,6 +17,10 @@ func NewMemoryRepo() repositories.URLShortenerRepository {
 	}
 }
 
+func (m *memoryRepo) GetAll() map[string]entities.URL {
+	return m.data
+}
+
 func (m *memoryRepo) Save(url entities.URL) error {
 	m.mu.Lock()
 	defer m.mu.Unlock()
@@ -24,7 +28,7 @@ func (m *memoryRepo) Save(url entities.URL) error {
 	return nil
 }
 
-func (m *memoryRepo) FindByShortURL(shortURL string) (*entities.URL, error) {
+func (m *memoryRepo) GetByShortURL(shortURL string) (*entities.URL, error) {
 	m.mu.RLock()
 	defer m.mu.RUnlock()
 	if url, exists := m.data[shortURL]; exists {
@@ -33,7 +37,7 @@ func (m *memoryRepo) FindByShortURL(shortURL string) (*entities.URL, error) {
 	return nil, nil
 }
 
-func (m *memoryRepo) FindByLongURL(longURL string) (*entities.URL, error) {
+func (m *memoryRepo) GetByLongURL(longURL string) (*entities.URL, error) {
 	m.mu.RLock()
 	defer m.mu.RUnlock()
 	for _, url := range m.data {

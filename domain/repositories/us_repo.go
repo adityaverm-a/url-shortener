@@ -8,8 +8,9 @@ import (
 //
 //go:generate mockgen -destination=mocks/mock_us_repo.go -package=mocks url-shortener/domain/repositories URLShortenerRepository
 type URLShortenerRepository interface {
+	GetAll() map[string]entities.URL
 	Save(input entities.URL) error
-	FindByLongURL(url string) (*entities.URL, error)
-	FindByShortURL(url string) (*entities.URL, error)
+	GetByLongURL(url string) (*entities.URL, error)
+	GetByShortURL(url string) (*entities.URL, error)
 	IncrementAccessCount(shortURL string) error
 }

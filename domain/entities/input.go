@@ -5,10 +5,14 @@ import (
 	"net/url"
 )
 
+type GetShortURLInput struct {
+	ShortURL string `json:"short_url" uri:"short_url" binding:"required"`
+}
+
 type CreateShortURLInput struct {
-	ShortURL  string `form:"short_url" json:"short_url"`
-	ExpiresAt int64  `form:"expires_at" json:"expires_at"`
-	LongURL   string `form:"long_url" json:"long_url" binding:"required"`
+	CustomShortURL string `form:"custom_short_url" json:"custom_short_url"`
+	ExpiresAt      int64  `form:"expires_at" json:"expires_at"`
+	LongURL        string `form:"long_url" json:"long_url" binding:"required"`
 }
 
 func (input *CreateShortURLInput) Validate() error {

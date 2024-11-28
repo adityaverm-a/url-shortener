@@ -11,7 +11,8 @@ import (
 
 // URLShortenerService is...
 type URLShortenerService interface {
-	Shorten(longURL string) (string, error)
+	GetAll() map[string]entities.URL
+	Shorten(input entities.CreateShortURLInput) (string, error)
 	Resolve(shortURL string) (string, error)
 }
 
@@ -24,9 +25,29 @@ type urlShortenerService struct {
 	repo repositories.URLShortenerRepository
 }
 
+func (service *urlShortenerService) GetAll() map[string]entities.URL {
+	return service.repo.GetAll()
+}
+
 // The GetOrderByID method of the urlShortenerService struct utilizes the OrderRepository instance, by calling the GetByID method on it, and returns any order and errors if received.
-func (service *urlShortenerService) Shorten(longURL string) (string, error) {
-	existing, _ := service.repo.FindByLongURL(longURL)
+func (service *urlShortenerService) Shorten(input entities.CreateShortURLInput) (string, error) {
+	if input.CustomShortURL != "" {
+		existing, _ := service.repo.GetByShortURL(input.CustomShortURL)
+		if existing != nil {
+			return "", errors.New("custom short URL already exists")
+		}
+
+		url := entities.URL{
+			LongURL:  input.LongURL,
+			ShortURL: input.CustomShortURL,
+		}
+
+		err := service.repo.Save(url)
+
+		return input.CustomShortURL, err
+	}
+
+	existing, _ := service.repo.GetByLongURL(input.LongURL)
 	if existing != nil {
 		return existing.ShortURL, nil
 	}
@@ -34,7 +55,7 @@ func (service *urlShortenerService) Shorten(longURL string) (string, error) {
 	shortURL := service.generateShortURL(6)
 
 	url := entities.URL{
-		LongURL:  longURL,
+		LongURL:  input.LongURL,
 		ShortURL: shortURL,
 	}
 
@@ -62,9 +83,9 @@ func (service *urlShortenerService) generateShortURL(length int) string {
 
 // The CreateOrder method of the urlShortenerService struct utilizes the OrderRepository instance, by calling the Create method on it, and returns the order created and errors if received.
 func (service *urlShortenerService) Resolve(shortURL string) (string, error) {
-	url, err := service.repo.FindByShortURL(shortURL)
-	if err != nil || url == nil {
-		return "", errors.New("short URL not found")
+	url, _ := service.repo.GetByShortURL(shortURL)
+	if url == nil {
+		return "", errors.New("The requested short URL does not exist.")
 	}
 
 	_ = service.repo.IncrementAccessCount(shortURL)
