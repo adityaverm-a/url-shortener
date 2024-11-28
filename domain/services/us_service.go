@@ -26,7 +26,7 @@ type urlShortenerService struct {
 
 // The GetOrderByID method of the urlShortenerService struct utilizes the OrderRepository instance, by calling the GetByID method on it, and returns any order and errors if received.
 func (service *urlShortenerService) Shorten(longURL string) (string, error) {
-	existing, _ := service.repo.GetByLongURL(longURL)
+	existing, _ := service.repo.FindByLongURL(longURL)
 	if existing != nil {
 		return existing.ShortURL, nil
 	}
@@ -62,7 +62,7 @@ func (service *urlShortenerService) generateShortURL(length int) string {
 
 // The CreateOrder method of the urlShortenerService struct utilizes the OrderRepository instance, by calling the Create method on it, and returns the order created and errors if received.
 func (service *urlShortenerService) Resolve(shortURL string) (string, error) {
-	url, err := service.repo.GetByShortURL(shortURL)
+	url, err := service.repo.FindByShortURL(shortURL)
 	if err != nil || url == nil {
 		return "", errors.New("short URL not found")
 	}
